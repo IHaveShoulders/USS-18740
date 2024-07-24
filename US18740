@@ -1,0 +1,122 @@
+# Max Christiansen unit standard 18740
+
+"""
+<----REQUIREMENTS---->
+
+- Prompt user for username and password.
+- Ask user for number of students, test max. score, score threshold
+- Ask user to list each student's score.
+
+- Program needs to calculate:
+-- Total scores (sum of all scores)
+-- Average score (sum of all scores over amount of scores)
+-- Average score rounded
+-- Average score percentage ((sum of all scores over (max. score times amount of scores)) times one hundred)
+-- Average score percentage rounded
+-- Threshold met y/n (if av. percent >= threshold, true. else, false.)
+
+"""
+
+import time
+import random
+
+user_input = ''
+user_input2 = ''
+scores = 0
+sum_scores = 0
+threshold = 0
+maximum_score = 0
+average_score = 0
+average_score_percent = 0
+
+
+def login(): # This is done in a function even though it is called only once because I have to prove that I can use functions
+   while True: # Logging in
+    user_input = str(input("Please enter your username. "))
+
+    user_input2 = str(input("Please enter your password. "))
+
+
+    
+    if (user_input=="Andrew Lewis" or user_input=="Philippa Lou") and user_input2=="Kenningrow":
+        break
+    else:
+        print("Wrong username and/or password. Try again. ")
+        continue
+    return
+
+print("Welcome to Skool OS.")
+
+login()
+
+while True: # Getting value for maximum_score
+    user_input = input("Please enter the highest score your test can award, as an integer. ")
+   
+    try:
+        maximum_score = int(user_input)
+        if maximum_score > 0:
+            break
+        else:
+            print("The maximum score cannot be less than one.")
+            continue
+    except ValueError:
+        print("That's not an integer, try again")
+        continue
+while True: # Getting value for threshold
+    user_input = input("Please enter the threshold for average score percentage as a class. Also as an integer. ")
+    try:
+        threshold = int(user_input)
+        if threshold <= 100:
+            if threshold > 0:
+                break
+            else:
+                print("The threshold cannot be less than one.")
+                continue
+        else:
+            print("The threshold cannot be greater than a hundred.")
+            continue
+
+    except ValueError:
+        print("That's not an integer, try again")
+        continue
+print("You will now be entering the scores of your students, as integers. type 'finish' at any time to start calculations.")
+while True: # Getting students' scores
+    user_input = input("Please enter the next score one of your students achieved. ")
+    if user_input == "finish":
+        break
+    else:
+        try:
+            user_input = int(user_input)
+
+        except ValueError:
+            print("Not an integer, enter again or move on to the next student. ")
+            continue
+        if user_input <= maximum_score:
+            if user_input >= 0:
+                sum_scores += user_input
+                scores += 1
+            else:
+                print("The student's score cannot be negative")
+                continue
+        else:
+            print("That score is higher than the maximum score that can be achieved. Finishing the test early and coming up with extra questions to answer for extra credit is not curriculum approved. ")
+
+
+print("Amount of scores entered: ", scores)
+print("Sum of all scores:", sum_scores)
+average_score = sum_scores / scores
+print("Average score = ",average_score)
+print("Rounded average score =", round(average_score))
+average_score_percent = (sum_scores / (maximum_score*scores))*100
+print("Average percentage = ",average_score_percent)
+print("Rounded average percentage = ",round(average_score_percent))
+
+if average_score_percent >= threshold: #threshold passing determinator
+    print("Congrats, your class has passed the threshold. you have taught them very goodly.")
+elif average_score_percent >= (threshold/2):
+    print("your students have not passed the threshold. Further revision recommended.")
+else:
+    print("your students have a very opportunity-limited future ahead of them. (they're stupid)")
+
+time.sleep(100)
+print("goodbye")
